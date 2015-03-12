@@ -4,11 +4,11 @@
 #######
 
 
-# Software Engineers - 2nd Year Comp Sci from Aberystwyth
+### Software Engineers - 2nd Year Comp Sci from Aberystwyth
 * Owen Garland 
 * Cormac Brady
 * Nic Dart 
 * Xander Barnes 
 
-# Journamlism Consultant
+### Journamlism Consultant
 * Laura Pugh, 2nd Year English Litrature and Creative Writing student
