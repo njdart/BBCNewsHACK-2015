@@ -11,4 +11,4 @@
 * Xander Barnes 
 
 ### Journamlism Consultant
-* Laura Pugh, 2nd Year English Litrature and Creative Writing student
+* Laura Pugh, 2nd Year English Literature and Creative Writing student
