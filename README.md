@@ -4,6 +4,11 @@
 #######
 
 
-Owen Garland, Cormac Brady, Nic Dart and Xander Barnes - 2nd Year Comp Sci from Aberystwyth
+# Software Engineers - 2nd Year Comp Sci from Aberystwyth
+* Owen Garland 
+* Cormac Brady
+* Nic Dart 
+* Xander Barnes 
 
-Laura Pugh - 2nd Year English Litrature and Creative Writing from Aberystwyth
+# Journamlism Consultant
+* Laura Pugh, 2nd Year English Litrature and Creative Writing student
