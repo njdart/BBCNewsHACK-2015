@@ -42,13 +42,11 @@ app.get('/testing', function(req, res){
   });
 });
 
-app.get('/run', function(req, res){ // This needs to be a post to recieve the AJAX call for lat+long
+app.get('/run').post(function(req, res) {
   post = req.body;
-  //getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data));
   var twitterQuery = "bbc.co.uk OR news.sky.com";
-  //var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  //client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
-  client.get('search/tweets', {q: twitterQuery, count:16}, function(error, tweets, response) {
+  var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
+  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); //, renderPage('home', data)); // NICK FIX IT
   });
   //renderPage('home', data, res);
