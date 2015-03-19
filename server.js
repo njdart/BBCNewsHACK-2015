@@ -27,6 +27,12 @@ app.get('/', function(req, res){
   renderPage('home', null, res);
 });
 
+app.get('/testing', function(req, res){
+  getArticleAsJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(res){
+    console.log(res);
+  });
+});
+
 /* 404 Route */
 app.get('*', function(req, res){
   res.status(404).send("404, these are not the droids you are looking for.");
@@ -38,9 +44,12 @@ console.log("Server listening on localhost:8000");
 
 /* ACTUAL FUNCTIONS THAT DO STUFF GO BELOW HERE */ 
 
-/* Ignore this for a while */
-function getArticle() {
-  var url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/9de77ae4ae4f60738bcf18d004bf48a5711a05ab?apikey=YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";
+function getArticleAsJSON(type, args, callback){
+  var url = type.URI;
+  url += args.articleId;
+  url += type.API_BASE += BBC_API_KEY;
+
+  console.log(url);
 
   http.get(url, function(res) {
     var body = '';
@@ -50,15 +59,26 @@ function getArticle() {
     });
 
     res.on('end', function() {
-      var response = JSON.parse(body);
-      console.log("Got response: %j", response);
+      callback(JSON.parse(body));
     });
   }).on('error', function(e) {
     console.log("Got error: ", e);
   });
+
 }
 
 /* Return a page with data included */
 function renderPage(page, data, res) {
   res.render(page, {'data':data});
 }
+
+var URIS = {
+  TWITTER: {
+    URI : "foobar",
+    "API_BASE" : ""
+  },
+  BBC: {
+    "URI": "http://data.test.bbc.co.uk/bbcrd-juicer/articles/",
+    "API_BASE" : "?apikey="
+  }
+};
