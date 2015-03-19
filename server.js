@@ -1,4 +1,3 @@
-// Load the http module to create an http server.
 var       http = require('http'),
        express = require('express'),
     bodyParser = require('body-parser'),
