@@ -14,8 +14,8 @@ var client = new Twitter({
   access_token_secret: sensitive.Access_Token_Secret
 });
 
-client.get('search/tweets', {q: 'bbc.co.uk'}, function(error, tweets, response) {
-  console.log(response.body);                        //.entities);//.urls.expanded_url);
+client.get('search/tweets', {q: 'news', count:16}, function(error, tweets, response) {
+  //console.log(JSON.parse(response.body));                        //.entities);//.urls.expanded_url);
 });
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
@@ -40,10 +40,9 @@ app.get('/', function(req, res){
 });
 
 app.get('/testing', function(req, res){
-  //getJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
-  //  renderPage("home", JSON.parse(data), res);
-  //});
-  renderPage("home", testdata, res);
+  getJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
+    renderPage("home", [data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
+  });
 });
 
 app.route('/run').post(function(req, res){
