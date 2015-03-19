@@ -1,10 +1,11 @@
-var       http = require('http'),
+var bodyParser = require('body-parser'),
        express = require('express'),
-    bodyParser = require('body-parser'),
+          http = require('http'),
         exphbs = require('express-handlebars'),
        Twitter = require('twitter'),
            app = express(),
      sensitive = require('./sensitive.js'),
+        crypto = require('crypto'),
         server = require('http').createServer(app);
 
 var client = new Twitter({
@@ -114,6 +115,13 @@ function getJuicerArticle(args, callback){
     console.log("Got error: ", e);
   });
 
+}
+
+/* Has a news article URL to use on juicer */
+function sha1URL(url) {
+  var hash = crypto.createHash('sha1').update(url);
+  url = hash.digest('hex');
+  return url;
 }
 
 /* Return a page with data included */
