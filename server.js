@@ -5,6 +5,7 @@ var bodyParser = require('body-parser'),
        Twitter = require('twitter'),
            app = express(),
      sensitive = require('./sensitive.js'),
+        crypto = require('crypto'),
         server = require('http').createServer(app);
 
 var client = new Twitter({
@@ -12,10 +13,6 @@ var client = new Twitter({
   consumer_secret: sensitive.Consumer_Secret,
   access_token_key: sensitive.Access_Token,
   access_token_secret: sensitive.Access_Token_Secret
-});
-
-client.get('search/tweets', {q: 'news', count:16}, function(error, tweets, response) {
-  //console.log(JSON.parse(response.body));                        //.entities);//.urls.expanded_url);
 });
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
@@ -106,6 +103,13 @@ function getJuicerArticle(args, callback){
     console.log("Got error: ", e);
   });
 
+}
+
+/* Has a news article URL to use on juicer */
+function sha1URL(url) {
+  var hash = crypto.createHash('sha1').update(url);
+  url = hash.digest('hex');
+  return url;
 }
 
 /* Return a page with data included */
