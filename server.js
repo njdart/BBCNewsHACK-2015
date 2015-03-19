@@ -41,14 +41,13 @@ app.get('/', function(req, res){
 
 app.get('/testing', function(req, res){
   getJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
-    renderPage("home", [data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
+    renderPage("home", [data, data, data, data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
   });
 });
 
 app.route('/run').post(function(req, res){
   post = req.body;
-  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ },
-    getArticlesFromTweets(data));
+  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data));
   renderPage('homepage', data, res);
 });
 
