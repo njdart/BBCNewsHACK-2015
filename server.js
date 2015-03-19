@@ -47,7 +47,12 @@ app.get('/testing', function(req, res){
 
 app.route('/run').post(function(req, res){
   post = req.body;
-  getJuicerArticle({ /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data));
+  //getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data));
+  var twitterQuery = "bbc.co.uk OR news.sky.com";
+  var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
+  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
+    getArticlesFromTweets(tweets, renderPage('home', data)); // NICK FIX IT
+  });
   renderPage('homepage', data, res);
 });
 
