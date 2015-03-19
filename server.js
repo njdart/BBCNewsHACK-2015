@@ -15,7 +15,15 @@ var client = new Twitter({
 });
 
 client.get('search/tweets', {q: 'news', count:16}, function(error, tweets, response) {
-  //console.log(JSON.parse(response.body));                        //.entities);//.urls.expanded_url);
+  var results = [];
+  //console.log(JSON.stringify(tweets));
+  tweets.statuses.forEach(function (status){
+    status.entities.urls.forEach(function (url){
+      results.push(url.expanded_url);
+    });
+  });
+  console.log(JSON.stringify(results));
+  //do something with results here
 });
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
