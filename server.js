@@ -33,6 +33,13 @@ app.get('/testing', function(req, res){
   });
 });
 
+app.route('/run').post(function(req, res){
+  post = req.body;
+  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ },
+    getArticlesFromTweets(data));
+  renderPage('homepage', data, res);
+});
+
 /* 404 Route */
 app.get('*', function(req, res){
   res.status(404).send("404, these are not the droids you are looking for.");
@@ -44,10 +51,32 @@ console.log("Server listening on localhost:8000");
 
 /* ACTUAL FUNCTIONS THAT DO STUFF GO BELOW HERE */ 
 
-function getArticleAsJSON(type, args, callback){
+var getArticlesFromTweets = function(tweets, callback) {
+
+  // pass list of articles sorted by amount seen;
+  // most popular -> least popular;
+
+  getJSON(BBC, { /* Article Ids */ }, createArticleList(article));
+
+};
+
+var createArticleList = function(article, callback) {
+
+  var listOfArtciles = [];
+  // add
+  // check if done
+  // render page 
+
+};
+
+function getJSON(type, args, callback){
   var url = type.URI;
-  url += args.articleId;
-  url += type.API_BASE += BBC_API_KEY;
+  if(type == BBC){
+    url += args.articleId;
+    url += type.API_BASE += BBC_API_KEY;
+  } else if(type == TWITTER){
+    
+  }
 
   console.log(url);
 

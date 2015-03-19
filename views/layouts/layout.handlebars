@@ -5,6 +5,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="icon" href="images/favicon.ico">
 
     <title>BBC Village</title>
@@ -54,7 +56,7 @@
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
 
-    <div class="container">
+    <div class="container" id="article-container">
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -111,6 +113,18 @@
     <script src="./index_files/ie10-viewport-bug-workaround.js"></script>
 
     <script src="./index_files/offcanvas.js"></script>
+
+    <script>
+      var x = document.getElementById("article-container");
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position){
+          x.innerHTML = "Latitude: " + position.coords.latitude + 
+          "<br>Longitude: " + position.coords.longitude; 
+        });
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    </script>
   
 
 </body></html>
