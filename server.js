@@ -1,11 +1,19 @@
 // Load the http module to create an http server.
-var http = require('http');
+var http = require('http'),
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    app = express(),
+    server = require('http').createServer(app);
 
-// Configure our HTTP server to respond with Hello World to all requests.
-var server = http.createServer(function (request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("Hello World\n");
-});
+/* Express settings */
+app.use(express.static(__dirname + '/images'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
+/* Start server */
+server.listen(8000);
+console.log("Server listening on localhost:8000");
 
 var url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/9de77ae4ae4f60738bcf18d004bf48a5711a05ab?apikey=YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";
 
