@@ -15,18 +15,6 @@ var client = new Twitter({
   access_token_secret: sensitive.Access_Token_Secret
 });
 
-client.get('search/tweets', {q: 'news', count:16}, function(error, tweets, response) {
-  var results = [];
-  //console.log(JSON.stringify(tweets));
-  tweets.statuses.forEach(function (status){
-    status.entities.urls.forEach(function (url){
-      results.push(url.expanded_url);
-    });
-  });
-  console.log(JSON.stringify(results));
-  //do something with results here
-});
-
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
 
 /* Express settings */
@@ -54,15 +42,16 @@ app.get('/testing', function(req, res){
   });
 });
 
-app.route('/run').post(function(req, res){
+app.get('/run', function(req, res){ // This needs to be a post to recieve the AJAX call for lat+long
   post = req.body;
   //getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data));
   var twitterQuery = "bbc.co.uk OR news.sky.com";
-  var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
-    getArticlesFromTweets(tweets, renderPage('home', data)); // NICK FIX IT
+  //var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
+  //client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
+  client.get('search/tweets', {q: twitterQuery, count:16}, function(error, tweets, response) {
+    getArticlesFromTweets(tweets); //, renderPage('home', data)); // NICK FIX IT
   });
-  renderPage('homepage', data, res);
+  //renderPage('home', data, res);
 });
 
 /* 404 Route */
@@ -76,13 +65,16 @@ console.log("Server listening on http://localhost:8000");
 
 /* ACTUAL FUNCTIONS THAT DO STUFF GO BELOW HERE */ 
 
-var getArticlesFromTweets = function(tweets, callback) {
-
-  // pass list of articles sorted by amount seen;
-  // most popular -> least popular;
-
-  getJSON(BBC, { /* Article Ids */ }, createArticleList(article));
-
+var getArticlesFromTweets = function(tweets) { //, callback) {
+  var results = [];
+  //console.log(JSON.stringify(tweets));
+  tweets.statuses.forEach(function (status){
+    status.entities.urls.forEach(function (url){
+      results.push(url.expanded_url);
+    });
+  });
+  console.log(JSON.stringify(results));
+  console.log("Now we need to validate these URL's on juicer with the SHA1 function");
 };
 
 var createArticleList = function(article, callback) {
