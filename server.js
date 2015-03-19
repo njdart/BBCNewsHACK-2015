@@ -3,6 +3,7 @@ var       http = require('http'),
     bodyParser = require('body-parser'),
         exphbs = require('express-handlebars'),
            app = express(),
+     sensitive = require('./sensitive.js'),
         server = require('http').createServer(app);
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
