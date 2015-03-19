@@ -56,7 +56,16 @@ var getArticlesFromTweets = function(tweets, callback) {
   // pass list of articles sorted by amount seen;
   // most popular -> least popular;
 
-  getJSON(BBC, { /* Article Ids */ }, function(){ renderPage('home', articles) });
+  getJSON(BBC, { /* Article Ids */ }, createArticleList(article));
+
+};
+
+var createArticleList = function(article, callback) {
+
+  var listOfArtciles = [];
+  // add
+  // check if done
+  // render page 
 
 };
 
