@@ -14,9 +14,9 @@ var client = new Twitter({
   access_token_secret: sensitive.Access_Token_Secret
 });
 
-client.get('search/tweets', {q: 'node.js'}, function(error, tweets, response){
-   console.log(tweets);
-});
+// client.get('search/tweets', {q: 'bbc.co.uk'}, function(error, tweets, response){
+//   console.log(response);
+// });
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
 
@@ -40,8 +40,8 @@ app.get('/', function(req, res){
 });
 
 app.get('/testing', function(req, res){
-  getArticleAsJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(res){
-    console.log(res);
+  getJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
+    renderPage("home", JSON.stringify(data), res);
   });
 });
 
@@ -83,14 +83,14 @@ var createArticleList = function(article, callback) {
 
 function getJSON(type, args, callback){
   var url = type.URI;
-  if(type == BBC){
+  if(type == URIS.BBC){
     url += args.articleId;
     url += type.API_BASE += BBC_API_KEY;
-  } else if(type == TWITTER){
+  } else if(type == URIS.TWITTER){
     
   }
 
-  console.log(url);
+  console.log("Generaated URI: " + url);
 
   http.get(url, function(res) {
     var body = '';
