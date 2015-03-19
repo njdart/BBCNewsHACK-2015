@@ -112,6 +112,8 @@ function getJSON(type, args, callback){
 /* Return a page with data included */
 function renderPage(page, data, res) {
   res.render(page, {'data':data});
+  console.log(data.title);
+  console.log(data.description);
 }
 
 var URIS = {
