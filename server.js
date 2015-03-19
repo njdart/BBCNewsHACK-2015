@@ -42,7 +42,7 @@ app.get('/testing', function(req, res){
   });
 });
 
-app.get('/run').post(function(req, res) {
+app.route('/run').post(function(req, res) {
   post = req.body;
   var twitterQuery = "bbc.co.uk OR news.sky.com";
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
