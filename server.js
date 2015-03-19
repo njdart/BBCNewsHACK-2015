@@ -84,7 +84,7 @@ function getJSON(type, args, callback){
   url = type.URI;
   if(type == URIS.BBC){
     url += args.articleId;
-    url += type.API_BASE += BBC_API_KEY;
+    url += type.API_BASE + BBC_API_KEY;
   } else if(type == URIS.TWITTER){
     
   }
