@@ -29,14 +29,11 @@ app.get('*', function(req, res){
   res.status(404).send("404, these are not the droids you are looking for.");
 });
 
-/* Return a page with data included */
-function renderPage(page, data, res) {
-  res.render(page, {'data':data});
-}
-
 /* Start server */
 server.listen(8000);
 console.log("Server listening on localhost:8000");
+
+/* ACTUAL FUNCTIONS THAT DO STUFF GO BELOW HERE */ 
 
 /* Ignore this for a while */
 function getArticle() {
@@ -56,4 +53,9 @@ function getArticle() {
   }).on('error', function(e) {
     console.log("Got error: ", e);
   });
+}
+
+/* Return a page with data included */
+function renderPage(page, data, res) {
+  res.render(page, {'data':data});
 }
