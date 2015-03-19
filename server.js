@@ -27,6 +27,12 @@ app.get('/', function(req, res){
   renderPage('home', null, res);
 });
 
+app.get('/testing', function(req, res){
+  getArticleAsJSON(URIS.BBC, {"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(res){
+    console.log(res);
+  });
+});
+
 /* 404 Route */
 app.get('*', function(req, res){
   res.status(404).send("404, these are not the droids you are looking for.");
@@ -51,14 +57,48 @@ function getArticle() {
 
     res.on('end', function() {
       var response = JSON.parse(body);
-      console.log("Got response: %j", response);
+      //console.log("Got response: %j", response);
     });
   }).on('error', function(e) {
     console.log("Got error: ", e);
   });
 }
 
+function getArticleAsJSON(type, args, callback){
+  var url = type.URI;
+  url += args.articleId;
+  url += type.API_BASE += BBC_API_KEY;
+
+  console.log(url);
+
+  http.get(url, function(res) {
+    var body = '';
+
+    res.on('data', function(chunk) {
+      body += chunk;
+    });
+
+    res.on('end', function() {
+      callback(JSON.parse(body));
+    });
+  }).on('error', function(e) {
+    console.log("Got error: ", e);
+  });
+
+}
+
 /* Return a page with data included */
 function renderPage(page, data, res) {
   res.render(page, {'data':data});
 }
+
+var URIS = {
+  TWITTER: {
+    URI : "foobar",
+    "API_BASE" : ""
+  },
+  BBC: {
+    "URI": "http://data.test.bbc.co.uk/bbcrd-juicer/articles/",
+    "API_BASE" : "?apikey="
+  }
+};
