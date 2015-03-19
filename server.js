@@ -7,6 +7,23 @@ var server = http.createServer(function (request, response) {
   response.end("Hello World\n");
 });
 
+var url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/9de77ae4ae4f60738bcf18d004bf48a5711a05ab?apikey=YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";
+
+http.get(url, function(res) {
+  var body = '';
+
+  res.on('data', function(chunk) {
+    body += chunk;
+  });
+
+  res.on('end', function() {
+    var response = JSON.parse(body);
+    console.log("Got response: %j", response);
+  });
+}).on('error', function(e) {
+  console.log("Got error: ", e);
+});
+
 // Listen on port 8000, IP defaults to 127.0.0.1
 server.listen(8000);
 
