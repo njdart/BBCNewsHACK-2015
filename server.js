@@ -81,7 +81,7 @@ var createArticleList = function(article, callback) {
 };
 
 function getJSON(type, args, callback){
-  var url = type.URI;
+  url = type.URI;
   if(type == URIS.BBC){
     url += args.articleId;
     url += type.API_BASE += BBC_API_KEY;
