@@ -14,9 +14,9 @@ var client = new Twitter({
   access_token_secret: sensitive.Access_Token_Secret
 });
 
-// client.get('search/tweets', {q: 'bbc.co.uk'}, function(error, tweets, response){
-//   console.log(response);
-// });
+client.get('search/tweets', {q: 'bbc.co.uk'}, function(error, tweets, response) {
+  console.log(response.body);                        //.entities);//.urls.expanded_url);
+});
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
 
