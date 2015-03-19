@@ -35,7 +35,8 @@ app.get('/testing', function(req, res){
 
 app.route('/run').post(function(req, res){
   post = req.body;
-  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data, displayPage(articles)));
+  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ },
+    getArticlesFromTweets(data));
   renderPage('homepage', data, res);
 });
 
@@ -55,17 +56,18 @@ var getArticlesFromTweets = function(tweets, callback) {
   // pass list of articles sorted by amount seen;
   // most popular -> least popular;
 
-};
+  getJSON(BBC, { /* Article Ids */ }, function(){ renderPage('home', articles) });
 
-function displayPage(articles) { 
-  renderPage('home', articles);
-}
+};
 
 function getJSON(type, args, callback){
   var url = type.URI;
-  url += args.articleId;
-  url += type.API_BASE += BBC_API_KEY;
-
+  if(type == BBC){
+    url += args.articleId;
+    url += type.API_BASE += BBC_API_KEY;
+  } else if(type == TWITTER){
+    
+  }
 
   console.log(url);
 
