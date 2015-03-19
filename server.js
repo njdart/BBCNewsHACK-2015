@@ -5,6 +5,8 @@ var       http = require('http'),
            app = express(),
         server = require('http').createServer(app);
 
+var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
+
 /* Express settings */
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
