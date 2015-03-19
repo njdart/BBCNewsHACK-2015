@@ -2,9 +2,21 @@ var       http = require('http'),
        express = require('express'),
     bodyParser = require('body-parser'),
         exphbs = require('express-handlebars'),
+       Twitter = require('twitter'),
            app = express(),
      sensitive = require('./sensitive.js'),
         server = require('http').createServer(app);
+
+var client = new Twitter({
+  consumer_key: sensitive.Consumer_Key,
+  consumer_secret: sensitive.Consumer_Secret,
+  access_token_key: sensitive.Access_Token,
+  access_token_secret: sensitive.Access_Token_Secret
+});
+
+client.get('search/tweets', {q: 'node.js'}, function(error, tweets, response){
+   console.log(tweets);
+});
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
 
