@@ -1,6 +1,6 @@
-var       http = require('http'),
+var bodyParser = require('body-parser'),
        express = require('express'),
-    bodyParser = require('body-parser'),
+          http = require('http'),
         exphbs = require('express-handlebars'),
        Twitter = require('twitter'),
            app = express(),
