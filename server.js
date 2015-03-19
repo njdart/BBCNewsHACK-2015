@@ -35,7 +35,7 @@ app.get('/testing', function(req, res){
 
 app.route('/run').post(function(req, res){
   post = req.body;
-  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data, callback));
+  getJSON(URIS.TIWTTER, { /* ALL OF THE TWITTER ARGUMENTS + LAT LONG */ }, getArticlesFromTweets(data, displayPage(articles)));
   renderPage('homepage', data, res);
 });
 
@@ -56,6 +56,10 @@ var getArticlesFromTweets = function(tweets, callback) {
   // most popular -> least popular;
 
 };
+
+function displayPage(articles) { 
+  renderPage('home', articles);
+}
 
 function getJSON(type, args, callback){
   var url = type.URI;
