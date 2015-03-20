@@ -81,7 +81,12 @@ function getArticlesFromTweets(tweets) {
     if(results[url].length < 25) {
       var temps = results.splice(index, 1);
     }
-    results[url] = sha1URL(results[url]);
+    var hash = sha1URL(results[url]);
+    if(results.indexOf(hash) > -1) {
+      // Add one to hashmap
+    } else {
+      results[url] = hash;
+    }
   }
   createArticleList(results);
 }
