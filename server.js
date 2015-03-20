@@ -51,7 +51,7 @@ app.route('/run').post(function(req, res) {
   //var twitterQuery = "Xander_barnes";
   // post.lat = 53.1436732;
   // post.lng = -4.2727924;
-  var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
+  var locationData = post.lat + "," + post.lng + "," + 20 + "mi";
   client.get('search/tweets', {q: twitterQuery,geocode:locationData, count:24, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
