@@ -92,6 +92,8 @@ var createData = function(data) {
     var articles = [];
     if(data.id) {
       articles.push(data);
+      // THIS IS NOT HAPPENING 
+      console.log("ARTICLES: " + articles);
     } else {
       renderPage('home', articles);
     }
