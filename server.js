@@ -1,4 +1,3 @@
-
 var bodyParser = require('body-parser'),
        express = require('express'),
           http = require('http'),
@@ -8,6 +7,7 @@ var bodyParser = require('body-parser'),
 //   urlExpander = require('expand-url'),      /// Experimental
      sensitive = require('./sensitive.js'),
         crypto = require('crypto'),
+         async = require('async'),
         server = require('http').createServer(app);
 
 var client = new Twitter({
@@ -22,6 +22,9 @@ var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslab
 /* OH GOD WHY */
 var articles = [];
 var response;
+var hack = function() { 
+  renderPage('home', articles, response);
+};
 
 /* Express settings */
 app.use(express.static(__dirname + '/public'));
@@ -87,11 +90,10 @@ function getArticlesFromTweets(tweets) {
   createArticleList(results);
 }
 
-function createArticleList(hashes, function() { renderPage('home', articles, response);}) {
-  var num = hashes.length;
-  hashes.map(function(hash) { 
-    getJuicerArticle(hash, createData);
-  });
+function createArticleList(hashes) {
+  async.map(hashes, getJuicerArticle, function(err, results){
+    renderPage('home', results, response);
+  }); 
 }
 
 var createData = function(data) {
@@ -104,7 +106,7 @@ var createData = function(data) {
   }
 };
 
-function getJuicerArticle(hash, callback){
+var getJuicerArticle = function(hash) { //, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
   url += hash;
   url += "?apikey=" + BBC_API_KEY;
@@ -118,13 +120,12 @@ function getJuicerArticle(hash, callback){
     });
 
     res.on('end', function() {
-      callback(JSON.parse(body));
+      createData(JSON.parse(body));
     });
   }).on('error', function(e) {
     console.log("Got error: ", e);
   });
-
-}
+};
 
 /* Has a news article URL to use on juicer */
 function sha1URL(url) {
