@@ -14,17 +14,8 @@ var client = new Twitter({
   access_token_secret: sensitive.Access_Token_Secret
 });
 
-client.get('search/tweets', {q: 'source:bbc.co.uk source:skynews.co.uk source:dailymail.co.uk ', count:16}, function(error, tweets, response) {
- var results = [];
-
-for (var i=0 ; i < response.length ; i++)
-{
-    var string = response[i].entities.urls.expanded_url;
-        results.push(string);
-    }
-}
-
- //console.log(JSON.parse(response.body));                        //.entities);//.urls.expanded_url);
+client.get('search/tweets', {q: 'news', count:16}, function(error, tweets, response) {
+  //console.log(JSON.parse(response.body));                        //.entities);//.urls.expanded_url);
 });
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
