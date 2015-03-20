@@ -71,8 +71,10 @@ function getArticlesFromTweets(tweets) {
   });
 
   for(var url in results) {
-    if(results[url].length < 25) {
-      results.splice(url, -1);
+  var index = results.indexOf(url);
+    if(results[url].length < 100) {
+      var temps = results.splice(index, 1);
+	  console.log("I remover "+ temps);
       // THIS ISN'T REMOVING CORRECTLY
       //console.log("Removed: " + results[url]); 
     }
