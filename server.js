@@ -22,9 +22,6 @@ var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslab
 /* OH GOD WHY */
 var articles = [];
 var response;
-var hack = function() { 
-  renderPage('home', articles, response);
-};
 
 /* Express settings */
 app.use(express.static(__dirname + '/public'));
@@ -86,28 +83,16 @@ function getArticlesFromTweets(tweets) {
     }
     results[url] = sha1URL(results[url]);
   }
-
   createArticleList(results);
 }
 
 function createArticleList(hashes) {
-  async.map(hashes, getJuicerArticle, function(err, results){
-    console.log("PLEASE");
-    renderPage('home', results, response);
+  async.map(hashes, getJuicerArticle, function(e, data) {
+    render('home', articles, response);
   }); 
 }
 
-var createData = function(data) {
-  //var articles = [];
-  if(data) {
-    if(data.id) {
-      articles.push(data);
-      console.log("HERE: " + articles.length);
-    }  
-  }
-};
-
-var getJuicerArticle = function(hash) { //, callback){
+var getJuicerArticle = function(hash, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
   url += hash;
   url += "?apikey=" + BBC_API_KEY;
@@ -121,7 +106,14 @@ var getJuicerArticle = function(hash) { //, callback){
     });
 
     res.on('end', function() {
-      createData(JSON.parse(body));
+      var data = JSON.parse(body);
+      if(data) {
+        if(data.id) {
+          articles.push(data);
+          console.log("HERE: " + articles.length);
+        }  
+      }
+      callback();
     });
   }).on('error', function(e) {
     console.log("Got error: ", e);
