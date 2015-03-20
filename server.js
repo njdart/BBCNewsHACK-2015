@@ -51,7 +51,7 @@ app.route('/run').post(function(req, res) {
   // post.lat = 53.1436732;
   // post.lng = -4.2727924;
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  client.get('search/tweets', {q: "Xander_Barnes"/*twitterQuery*/, /*geocode:locationData,*/ count:post.radius, result_type: "recent"}, function(error, tweets, response) {
+  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:post.radius, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
 });
@@ -88,7 +88,8 @@ function getArticlesFromTweets(tweets) {
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(e, data) {
-    renderPage('home', articles, response);
+    response.render('home', {layout: false, data:articles});
+    //renderPage('home', articles, response);
   }); 
 }
 
