@@ -82,7 +82,7 @@ function getArticlesFromTweets(tweets) {
 
 function createArticleList(hashes) { //, callback) {
   hashes.map(function(hash) { 
-    getJuicerArticle(hash, createData(data));
+    getJuicerArticle(hash, createData);
   });
   createData(null);
 }
