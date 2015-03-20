@@ -4,9 +4,12 @@ var bodyParser = require('body-parser'),
         exphbs = require('express-handlebars'),
        Twitter = require('twitter'),
            app = express(),
+   urlExpander = require('expand-url'),      /// Experimental
      sensitive = require('./sensitive.js'),
         crypto = require('crypto'),
         server = require('http').createServer(app);
+
+ 
 
 var client = new Twitter({
   consumer_key: sensitive.Consumer_Key,
@@ -118,3 +121,8 @@ function sha1URL(url) {
 function renderPage(page, data, res) {
   res.render(page, {'data':data});
 }
+
+/* URL Expander */
+urlExpander.expand('http://bbc.in/1MOoEuU', function(err, longUrl){
+  //console.log("LONG: " + longUrl);
+});
