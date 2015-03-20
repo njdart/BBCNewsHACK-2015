@@ -74,21 +74,28 @@ function getArticlesFromTweets(tweets) {
   var index = results.indexOf(url);
     if(results[url].length < 25) {
       var temps = results.splice(index, 1);
-	  
-
+      results[url] = sha1URL(results[url]);
     }
-    console.log(sha1URL(results[url]));
   }
-  
+  createArticleList(results);
 }
 
-var createArticleList = function(article, callback) {
+function createArticleList(hashes) { //, callback) {
+  hashes.map(function(hash) { 
+    getJuicerArticle(hash, createData);
+  });
+  createData(null);
+}
 
-  var listOfArtciles = [];
-  // add
-  // check if done
-  // render page 
-
+var createData = function(data) {
+  if(data) {
+    var articles = [];
+    if(data.id) {
+      articles.push(data);
+    } else {
+      renderPage('home', articles);
+    }
+  }
 };
 
 function getJuicerArticle(args, callback){
