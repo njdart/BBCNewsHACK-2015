@@ -9,8 +9,6 @@ var bodyParser = require('body-parser'),
         crypto = require('crypto'),
         server = require('http').createServer(app);
 
- 
-
 var client = new Twitter({
   consumer_key: sensitive.Consumer_Key,
   consumer_secret: sensitive.Consumer_Secret,
@@ -34,12 +32,7 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 
-/* Render home */
 app.get('/', function(req, res){
-  renderPage('home', null, res);
-});
-
-app.get('/testing', function(req, res){
   getJuicerArticle({"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
     renderPage("home", [data, data, data, data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
   });
@@ -50,7 +43,15 @@ app.route('/run').post(function(req, res) {
   var twitterQuery = "bbc.co.uk OR news.sky.com";
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
   client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
-    getArticlesFromTweets(tweets); //, renderPage('home', data)); // NICK FIX IT
+    getArticlesFromTweets(tweets); 
+  });
+  //renderPage('home', data, res);
+});
+
+app.get('/testrun', function(req, res) {
+  var twitterQuery = "bbc.co.uk OR news.sky.com";
+  client.get('search/tweets', {q: twitterQuery, count:16}, function(error, tweets, response) {
+    getArticlesFromTweets(tweets);
   });
   //renderPage('home', data, res);
 });
@@ -66,17 +67,24 @@ console.log("Server listening on http://localhost:8000");
 
 /* ACTUAL FUNCTIONS THAT DO STUFF GO BELOW HERE */ 
 
-var getArticlesFromTweets = function(tweets) { //, callback) {
+function getArticlesFromTweets(tweets) {
   var results = [];
-  //console.log(JSON.stringify(tweets));
-  tweets.statuses.forEach(function (status){
-    status.entities.urls.forEach(function (url){
+  tweets.statuses.map(function(item) {
+    item.entities.urls.map(function(url) {
       results.push(url.expanded_url);
     });
   });
-  console.log(JSON.stringify(results));
-  console.log("Now we need to validate these URL's on juicer with the SHA1 function");
-};
+
+  for(var url in results) {
+    if(results[url].length < 25) {
+      results.splice(url, -1);
+      // THIS ISN'T REMOVING CORRECTLY
+      //console.log("Removed: " + results[url]); 
+    }
+    console.log(sha1URL(results[url]));
+  }
+
+}
 
 var createArticleList = function(article, callback) {
 
