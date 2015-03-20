@@ -33,9 +33,9 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 app.get('/', function(req, res){
-  getJuicerArticle({"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
-    renderPage("home", [data, data, data, data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
-  });
+  //getJuicerArticle({"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
+    renderPage("home", null, res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
+  //});
 });
 
 app.route('/run').post(function(req, res) {
@@ -74,26 +74,33 @@ function getArticlesFromTweets(tweets) {
   var index = results.indexOf(url);
     if(results[url].length < 25) {
       var temps = results.splice(index, 1);
-	  
-
+      results[url] = sha1URL(results[url]);
     }
-    console.log(sha1URL(results[url]));
   }
-  
+  createArticleList(results);
 }
 
-var createArticleList = function(article, callback) {
+function createArticleList(hashes) { //, callback) {
+  hashes.map(function(hash) { 
+    getJuicerArticle(hash, createData);
+  });
+  createData(null);
+}
 
-  var listOfArtciles = [];
-  // add
-  // check if done
-  // render page 
-
+var createData = function(data) {
+  if(data) {
+    var articles = [];
+    if(data.id) {
+      articles.push(data);
+    } else {
+      renderPage('home', articles);
+    }
+  }
 };
 
-function getJuicerArticle(args, callback){
+function getJuicerArticle(hash, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
-  url += args.articleId;
+  url += hash;
   url += "?apikey=" + BBC_API_KEY;
 
   console.log("Generated URI: " + url);

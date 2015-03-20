@@ -138,8 +138,6 @@ var x = document.getElementById("article-container");
           console.log( "Sample of data:", data.slice( 0, 100 ) );
         }).fail(function(data){
           console.log("AJAX Failed " + JSON.stringify(data));
-        }).allways(function(data){
-          console.log("AJAX ALLWAYS: " + data);
         });
       });
     } else {
