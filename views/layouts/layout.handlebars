@@ -102,6 +102,8 @@
           console.log( "Sample of data:", data.slice( 0, 100 ) );
         }).fail(function(data){
           console.log("AJAX Failed " + data);
+        }).allways(function(data){
+          console.log("AJAX ALLWAYS: " + data);
         });
       });
     } else {

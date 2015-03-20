@@ -41,19 +41,13 @@ app.get('/', function(req, res){
 app.route('/run').post(function(req, res) {
   post = req.body;
   var twitterQuery = "bbc.co.uk OR news.sky.com";
+  // post.lat = 53.1436732;
+  // post.lng = -4.2727924;
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:16}, function(error, tweets, response) {
+  console.log(locationData);
+  client.get('search/tweets', {q: "Xander_Barnes"/*twitterQuery*/, geocode:locationData, count:100, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
-  //renderPage('home', data, res);
-});
-
-app.get('/testrun', function(req, res) {
-  var twitterQuery = "bbc.co.uk OR news.sky.com";
-  client.get('search/tweets', {q: twitterQuery, count:16}, function(error, tweets, response) {
-    getArticlesFromTweets(tweets);
-  });
-  //renderPage('home', data, res);
 });
 
 /* 404 Route */
@@ -69,11 +63,13 @@ console.log("Server listening on http://localhost:8000");
 
 function getArticlesFromTweets(tweets) {
   var results = [];
+  console.log(JSON.stringify(tweets, null, 2));
   tweets.statuses.map(function(item) {
     item.entities.urls.map(function(url) {
       results.push(url.expanded_url);
     });
   });
+
 
   for(var url in results) {
     if(results[url].length < 25) {
@@ -83,7 +79,6 @@ function getArticlesFromTweets(tweets) {
     }
     console.log(sha1URL(results[url]));
   }
-
 }
 
 var createArticleList = function(article, callback) {
