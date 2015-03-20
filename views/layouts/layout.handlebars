@@ -51,8 +51,19 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <p>The BBC Village is designed to adapt for personal preference. Click on your region to discover the latest in your area.</p>
-            <input id="location" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
-            <input id="distance" data-slider-id='ex1Slider' type="number" data-slider-min="0" data-slider-max="1000" data-slider-step="200" data-slider-value="200"/>
+
+            <form class="form-inline">
+              <div class="form-group">
+                <label class="sr-only">Email</label>
+                <p class="form-control-static">Postcode: </p>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword2" class="sr-only">Location</label>
+                <input type="password" class="form-control" id="inputPassword2" placeholder="Current Location">
+              </div>
+              <button type="submit" class="btn btn-default">Find popular articles near me</button>
+            </form>
+
           </div>
         </div>
         <div class="row">
