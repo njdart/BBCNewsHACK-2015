@@ -33,9 +33,9 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 app.get('/', function(req, res){
-  getJuicerArticle({"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
-    renderPage("home", [data, data, data, data], res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
-  });
+  //getJuicerArticle({"articleId":"6e825b2e5becd6c489ad9bef124b22b8d0450dcb"}, function(data){
+    renderPage("home", null, res); // THIS NEEDS TO BE A LIST, BUT NOT HERE
+  //});
 });
 
 app.route('/run').post(function(req, res) {
