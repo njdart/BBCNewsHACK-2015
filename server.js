@@ -1,3 +1,4 @@
+
 var bodyParser = require('body-parser'),
        express = require('express'),
           http = require('http'),
@@ -63,7 +64,7 @@ console.log("Server listening on http://localhost:8000");
 
 function getArticlesFromTweets(tweets) {
   var results = [];
-  console.log(JSON.stringify(tweets, null, 2));
+  //console.log(JSON.stringify(tweets, null, 2));
   tweets.statuses.map(function(item) {
     item.entities.urls.map(function(url) {
       results.push(url.expanded_url);
@@ -84,17 +85,20 @@ function createArticleList(hashes) { //, callback) {
   hashes.map(function(hash) { 
     getJuicerArticle(hash, createData);
   });
-  createData(null);
+  //createData(null);
 }
 
 var createData = function(data) {
+  var articles = [];
+  console.log(data);
   if(data) {
-    var articles = [];
     if(data.id) {
       articles.push(data);
-    } else {
-      renderPage('home', articles);
-    }
+      // THIS IS NOT HAPPENING 
+      console.log("ARTICLES: " + articles);
+    }  
+  } else {
+    renderPage('home', articles);
   }
 };
 
