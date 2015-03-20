@@ -45,7 +45,7 @@ app.get('/', function(req, res){
 
 app.route('/run').post(function(req, res) {
   articles = [];
-  respose = res;
+  response = res;
   post = req.body;
   var twitterQuery = "bbc.co.uk OR news.sky.com";
   // post.lat = 53.1436732;
@@ -88,7 +88,7 @@ function getArticlesFromTweets(tweets) {
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(e, data) {
-    render('home', articles, response);
+    renderPage('home', articles, response);
   }); 
 }
 
