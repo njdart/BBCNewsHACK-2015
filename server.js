@@ -92,6 +92,7 @@ function getArticlesFromTweets(tweets) {
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(err, results){
+    console.log("PLEASE");
     renderPage('home', results, response);
   }); 
 }
