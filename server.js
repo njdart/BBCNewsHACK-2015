@@ -19,6 +19,10 @@ var client = new Twitter({
 
 var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";  // http://docs.bbcnewslabs.co.uk/NewsHack-Wales.html
 
+/* OH GOD WHY */
+var articles = [];
+var response;
+
 /* Express settings */
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -40,13 +44,14 @@ app.get('/', function(req, res){
 });
 
 app.route('/run').post(function(req, res) {
+  articles = [];
+  respose = res;
   post = req.body;
   var twitterQuery = "bbc.co.uk OR news.sky.com";
   // post.lat = 53.1436732;
   // post.lng = -4.2727924;
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  console.log(locationData);
-  client.get('search/tweets', {q: "Xander_Barnes"/*twitterQuery*/, geocode:locationData, count:100, result_type: "recent"}, function(error, tweets, response) {
+  client.get('search/tweets', {q: "Xander_Barnes"/*twitterQuery*/, /*geocode:locationData,*/ count:100, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
 });
@@ -78,27 +83,24 @@ function getArticlesFromTweets(tweets) {
     }
     results[url] = sha1URL(results[url]);
   }
+
   createArticleList(results);
 }
 
-function createArticleList(hashes) { //, callback) {
+function createArticleList(hashes, function() { renderPage('home', articles, response);}) {
+  var num = hashes.length;
   hashes.map(function(hash) { 
     getJuicerArticle(hash, createData);
   });
-  //createData(null);
 }
 
 var createData = function(data) {
-  var articles = [];
-  console.log(data);
+  //var articles = [];
   if(data) {
     if(data.id) {
       articles.push(data);
-      // THIS IS NOT HAPPENING 
-      console.log("ARTICLES: " + articles);
+      console.log("HERE: " + articles.length);
     }  
-  } else {
-    renderPage('home', articles);
   }
 };
 
@@ -106,8 +108,7 @@ function getJuicerArticle(hash, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
   url += hash;
   url += "?apikey=" + BBC_API_KEY;
-
-  console.log("Generated URI: " + url);
+  //console.log("Generated URI: " + url);
 
   http.get(url, function(res) {
     var body = '';
