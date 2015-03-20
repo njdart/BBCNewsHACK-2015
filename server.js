@@ -47,11 +47,12 @@ app.route('/run').post(function(req, res) {
   articles = [];
   response = res;
   post = req.body;
-  var twitterQuery = "bbc.co.uk OR news.sky.com";
+  //var twitterQuery = "bbc.co.uk OR news.sky.com";
+  var twitterQuery = "Xander_barnes";
   // post.lat = 53.1436732;
   // post.lng = -4.2727924;
   var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
-  client.get('search/tweets', {q: twitterQuery, geocode:locationData, count:24, result_type: "recent"}, function(error, tweets, response) {
+  client.get('search/tweets', {q: twitterQuery,/* geocode:locationData, */count:24, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
 });
@@ -72,27 +73,26 @@ function getArticlesFromTweets(tweets) {
   //console.log(JSON.stringify(tweets, null, 2));
   tweets.statuses.map(function(item) {
     item.entities.urls.map(function(url) {
-      results.push(url.expanded_url);
+      if(url.expanded_url.length > 25) {
+        results.push(sha1URL(url.expanded_url));
+      }
     });
   });
 
-  for(var url in results) {
-  var index = results.indexOf(url);
-    if(results[url].length < 25) {
-      var temps = results.splice(index, 1);
-    }
-    var hash = sha1URL(results[url]);
-    if(results.indexOf(hash) > -1) {
-      // Add one to hashmap
-    } else {
-      results[url] = hash;
-    }
-  }
-  createArticleList(results);
+console.log(results);
+
+  var reduced = results.reduce(function(freqs, el) { 
+    return freqs.concat([{el: el, freq: results.filter(function(x) { return x === el; }).length}]); 
+  }, []); 
+
+console.log(reduced);
+
+  createArticleList(reduced);
 }
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(e, data) {
+    console.log(articles);
     response.render('home', {layout: false, data:articles});
     //renderPage('home', articles, response);
   }); 
@@ -100,9 +100,9 @@ function createArticleList(hashes) {
 
 var getJuicerArticle = function(hash, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
-  url += hash;
+  url += hash.el;
   url += "?apikey=" + BBC_API_KEY;
-  //console.log("Generated URI: " + url);
+  //console.log("Generated URI: " + url + " FREQ: " + hash.freq);
 
   http.get(url, function(res) {
     var body = '';
@@ -115,6 +115,7 @@ var getJuicerArticle = function(hash, callback){
       var data = JSON.parse(body);
       if(data) {
         if(data.id) {
+          data.freq = hash.freq;
           articles.push(data);
           console.log("HERE: " + articles.length);
         }  
