@@ -88,7 +88,8 @@ function getArticlesFromTweets(tweets) {
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(e, data) {
-    renderPage('home', articles, response);
+    response.render('home', {layout: false, data:articles});
+    //renderPage('home', articles, response);
   }); 
 }
 
