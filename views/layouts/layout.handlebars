@@ -96,12 +96,19 @@
                         <button class="btn btn-default" style=
                         "margin-top: 10px;" type="submit">Find popular articles
                         near me</button>
-                    </form></a> <a class="list-group-item">Distance around me:
-                    miles
+                    </form></a> 
+                      <script type="text/javascript">
+                            function updateTextInput(val) {
+                              document.getElementById('textInput').value=val; 
+                            }
+                          </script>
+                    <a class="list-group-item">Distance around me: 
+                        <input type="text" id="textInput" readonly="readonly" value="200" style="width: 50px;">
+
 
                     <form class="form-inline">
-                        <input id="distance" max="200" min="5" type="range"
-                        value="50">
+                        <input id="distance" max="1000" min="5" type="range"
+                        value="200" onchange="updateTextInput(this.value);">
                     </form></a>
                 </div>
             </div>
