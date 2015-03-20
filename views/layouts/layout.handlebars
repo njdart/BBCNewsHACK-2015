@@ -67,7 +67,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row" id="article_row">
                     <img src="images/loading.gif" alt="loading" height="42" width="42" style="margin-left: 50%;">
                     {{{body}}}
                 </div>
@@ -144,6 +144,7 @@ var x = document.getElementById("article-container");
           }
         }).done(function( data ) {
           console.log( "Sample of data:", data);
+          $('#article_row').replaceWith(data);
         }).fail(function(data){
           console.log("AJAX Failed " + JSON.stringify(data));
         });
