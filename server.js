@@ -98,9 +98,9 @@ var createData = function(data) {
   }
 };
 
-function getJuicerArticle(args, callback){
+function getJuicerArticle(hash, callback){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
-  url += args.articleId;
+  url += hash;
   url += "?apikey=" + BBC_API_KEY;
 
   console.log("Generated URI: " + url);
