@@ -1,6 +1,6 @@
 var crypto = require('crypto');
 var http = require('http');
-var BBC_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";
+var JUICER_API_KEY = "YB0MY3VMHyllzPqEf5alVj5bUvGpvDVi";
 var urls = [
   'http://www.bbc.co.uk/news/science-environment-31965456',
   'http://news.sky.com/story/1448732/north-korea-defectors-are-human-scum',
@@ -27,8 +27,7 @@ function sha1URL(url) {
 function getJuicerArticle(hash, source){
   url = "http://data.test.bbc.co.uk/bbcrd-juicer/articles/";
   url += hash;
-  url += "?apikey=" + BBC_API_KEY;
-
+  url += "?apikey=" + JUICER_API_KEY;
   //console.log("Generated URI: " + url);
 
   http.get(url, function(res) {
@@ -39,7 +38,6 @@ function getJuicerArticle(hash, source){
     });
 
     res.on('end', function() {
-
       var result = JSON.parse(body).id;
       if(result) {
         console.log("[+] " + source);
@@ -48,7 +46,6 @@ function getJuicerArticle(hash, source){
       }
     });
   }).on('error', function(e) {
-    console.log("Got error: ", e);
+    console.log("ERROR: ", e);
   });
-
 }
