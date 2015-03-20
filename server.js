@@ -4,7 +4,7 @@ var bodyParser = require('body-parser'),
         exphbs = require('express-handlebars'),
        Twitter = require('twitter'),
            app = express(),
-   urlExpander = require('expand-url'),      /// Experimental
+//   urlExpander = require('expand-url'),      /// Experimental
      sensitive = require('./sensitive.js'),
         crypto = require('crypto'),
         server = require('http').createServer(app);
@@ -70,7 +70,6 @@ function getArticlesFromTweets(tweets) {
     });
   });
 
-
   for(var url in results) {
     if(results[url].length < 25) {
       results.splice(url, -1);
@@ -126,6 +125,6 @@ function renderPage(page, data, res) {
 }
 
 /* URL Expander */
-urlExpander.expand('http://bbc.in/1MOoEuU', function(err, longUrl){
+///urlExpander.expand('http://bbc.in/1MOoEuU', function(err, longUrl){
   //console.log("LONG: " + longUrl);
-});
+//});
