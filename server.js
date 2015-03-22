@@ -51,7 +51,7 @@ app.route('/run').post(function(req, res) {
   //var twitterQuery = "Xander_barnes";
   // post.lat = 53.1436732;
   // post.lng = -4.2727924;
-  var locationData = post.lat + "," + post.lng + "," + 20 + "mi";
+  var locationData = post.lat + "," + post.lng + "," + post.radius + "mi";
   client.get('search/tweets', {q: twitterQuery,geocode:locationData, count:24, result_type: "recent"}, function(error, tweets, response) {
     getArticlesFromTweets(tweets); 
   });
@@ -70,7 +70,6 @@ console.log("Server listening on http://localhost:8000");
 
 function getArticlesFromTweets(tweets) {
   var results = [];
-  //console.log(JSON.stringify(tweets, null, 2));
   tweets.statuses.map(function(item) {
     item.entities.urls.map(function(url) {
       if(url.expanded_url.length > 25) {
@@ -78,8 +77,6 @@ function getArticlesFromTweets(tweets) {
       }
     });
   });
-
-  console.log(results);
 
   var reduced = [];
   var usedIds = {};
@@ -91,48 +88,26 @@ function getArticlesFromTweets(tweets) {
     usedIds[result] += 1;
   })
 
-  console.log("REDUCED: " + JSON.stringify(usedIds));
-
   reduced = [];
   for(o in usedIds){
-    console.log(o);
-    console.log(usedIds[o])
     reduced.push({el:o, freq: usedIds[o]});
   }
 
   reduced.sort(function (a,b) {
     if (a.freq < b.freq)
-       return -1;
+       return 1;
     if (a.freq > b.freq)
-      return 1;
+      return -1;
     return 0;
   });
 
-  console.log("Final: " + JSON.stringify(reduced));
-  // var reduced = results.reduce(function(prev, curr, index, arry) {
-  //   console.log(prev); 
-  //   console.log(curr);
-  //   console.log(index);
-  //   console.log(arry);
-  //   count = 0;
-  //   arry.forEach(function(obj){
-  //     if(obj === curr){
-  //       count += 1;
-  //     }
-  //   })
-  //   arry[index] = {
-  //       item: curr,
-  //       count: count
-  //     };
-  // }, []); 
-
+  console.log("Articles: " + JSON.stringify(reduced, null, 2));
 
   createArticleList(reduced);
 }
 
 function createArticleList(hashes) {
   async.map(hashes, getJuicerArticle, function(e, data) {
-    console.log(articles);
     response.render('home', {layout: false, data:articles});
     //renderPage('home', articles, response);
   }); 
@@ -157,7 +132,6 @@ var getJuicerArticle = function(hash, callback){
         if(data.id) {
           data.freq = hash.freq;
           articles.push(data);
-          console.log("HERE: " + articles.length);
         }  
       }
       callback();
