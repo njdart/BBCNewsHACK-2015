@@ -4,6 +4,7 @@
 
 ### [Code as it was at the end of the two day hack](https://github.com/njdart/BBCNewsHACK-2015/tree/65454838c5b1a3a530579ab2363bb895de75b697)
 
+[Article about the event](https://www.aber.ac.uk/en/news/archive/2015/04/title-166034-en.html)
 
 ### Code, Documentation and Design for the BBC News Hack 2015
 #######
